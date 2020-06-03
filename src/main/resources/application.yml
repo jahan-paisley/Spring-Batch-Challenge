@@ -6,7 +6,7 @@ spring:
     job:
       enabled: false
   application:
-    name: tmt-coding
+    name: tmt
     version: 1.0.0
   main:
     allow-bean-definition-overriding: true
