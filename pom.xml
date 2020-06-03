@@ -83,6 +83,12 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- Spring Batch-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-batch</artifactId>
+		</dependency>
+
 		<!-- Spring Boot Security-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
