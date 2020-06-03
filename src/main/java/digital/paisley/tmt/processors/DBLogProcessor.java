@@ -1,4 +1,4 @@
-package digital.paisley.tmt.config;
+package digital.paisley.tmt.processors;
 
 import digital.paisley.tmt.entities.StoreOrder;
 import org.springframework.batch.item.ItemProcessor;

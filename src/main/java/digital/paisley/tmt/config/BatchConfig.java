@@ -1,6 +1,7 @@
 package digital.paisley.tmt.config;
 
 import digital.paisley.tmt.entities.StoreOrder;
+import digital.paisley.tmt.processors.DBLogProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -20,11 +21,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
+@EnableScheduling
 public class BatchConfig {
 
     @Autowired
