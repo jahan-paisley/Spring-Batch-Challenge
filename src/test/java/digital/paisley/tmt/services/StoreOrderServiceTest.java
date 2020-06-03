@@ -1,7 +1,7 @@
-package digital.paisley.tmt.coding.services;
+package digital.paisley.tmt.services;
 
-import digital.paisley.tmt.coding.entities.StoreOrder;
-import digital.paisley.tmt.coding.repositories.StoreOrderRepository;
+import digital.paisley.tmt.entities.StoreOrder;
+import digital.paisley.tmt.repositories.StoreOrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

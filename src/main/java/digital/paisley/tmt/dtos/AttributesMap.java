@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding.dtos;
+package digital.paisley.tmt.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

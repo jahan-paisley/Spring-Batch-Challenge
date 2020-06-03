@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding;
+package digital.paisley.tmt;
 
 
 import org.junit.Before;

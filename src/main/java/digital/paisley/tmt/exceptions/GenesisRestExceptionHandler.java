@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding.exceptions;
+package digital.paisley.tmt.exceptions;
 
 import digital.paisley.commons.error.DefaultRestExceptionHandler;
 import org.springframework.core.Ordered;

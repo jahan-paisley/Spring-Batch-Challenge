@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding.entities;
+package digital.paisley.tmt.entities;
 
 import lombok.Getter;
 import lombok.Setter;

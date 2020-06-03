@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding.config;
+package digital.paisley.tmt.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

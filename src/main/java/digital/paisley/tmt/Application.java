@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding;
+package digital.paisley.tmt;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -17,9 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class,
-		UserDetailsServiceAutoConfiguration.class})
-@ComponentScan(basePackages = {"digital.paisley.*"})
+@SpringBootApplication()
 @EnableScheduling
 public class Application {
 

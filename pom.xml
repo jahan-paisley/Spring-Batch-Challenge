@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>digital.paisley</groupId>
-	<artifactId>tmt-coding</artifactId>
+	<artifactId>tmt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>tmt-coding</name>
+	<name>tmt</name>
 	<description>tmt coding challenge.</description>
 
 	<parent>
@@ -27,8 +27,8 @@
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 		<mapstruct.version>1.1.0.Final</mapstruct.version>
 		<docker.image.prefix>paisley</docker.image.prefix>
-		<sonar.projectKey>tmt-coding</sonar.projectKey>
-		<sonar.projectName>tmt-coding</sonar.projectName>
+		<sonar.projectKey>tmt</sonar.projectKey>
+		<sonar.projectName>tmt</sonar.projectName>
 		<sonar.projectVersion>1.0</sonar.projectVersion>
 		<sonar.sources>src/main/</sonar.sources>
 		<sonar.tests>src/test/</sonar.tests>
@@ -42,16 +42,16 @@
 			src/main/java/digital/paisley/commons/*,
 			src/main/java/digital/paisley/commons/error/*,
 			src/main/java/digital/paisley/commons/lang/*,
-			src/main/java/digital/paisley/tmt/coding/*,
-			src/main/java/digital/paisley/tmt/coding/entities/*,
-			src/main/java/digital/paisley/tmt/coding/dtos/*,
-			src/main/java/digital/paisley/tmt/coding/controllers/*,
-			src/main/java/digital/paisley/tmt/coding/config/*,
-			src/main/java/digital/paisley/tmt/coding/apis/*,
-			src/main/java/digital/paisley/tmt/coding/utils/*,
-			src/main/java/digital/paisley/tmt/coding/clients/*,
-			src/main/java/digital/paisley/tmt/coding/repositories/*,
-			src/main/java/digital/paisley/tmt/coding/exceptions/*</sonar.exclusions>
+			src/main/java/digital/paisley/tmt/*,
+			src/main/java/digital/paisley/tmt/entities/*,
+			src/main/java/digital/paisley/tmt/dtos/*,
+			src/main/java/digital/paisley/tmt/controllers/*,
+			src/main/java/digital/paisley/tmt/config/*,
+			src/main/java/digital/paisley/tmt/apis/*,
+			src/main/java/digital/paisley/tmt/utils/*,
+			src/main/java/digital/paisley/tmt/clients/*,
+			src/main/java/digital/paisley/tmt/repositories/*,
+			src/main/java/digital/paisley/tmt/exceptions/*</sonar.exclusions>
 	</properties>
 
 	<dependencies>
@@ -59,18 +59,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.integration</groupId>
-			<artifactId>spring-integration-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -87,20 +75,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-batch</artifactId>
-		</dependency>
-
-		<!-- Spring Boot Security-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<!-- Spring Boot Test-->
@@ -159,18 +133,6 @@
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
 		</dependency>
 
-		<!-- Swagger UI -->
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-data-rest</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-
 		<!-- DB -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -219,13 +181,6 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 			<version>2.10.4</version>
-		</dependency>
-
-		<!--FCM-->
-		<dependency>
-			<groupId>com.google.firebase</groupId>
-			<artifactId>firebase-admin</artifactId>
-			<version>6.12.2</version>
 		</dependency>
 
 	</dependencies>
@@ -305,10 +260,10 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>**/digital/paisley/tmt/coding/commons/**</exclude>
-								<exclude>**/digital/paisley/tmt/coding/config/**</exclude>
-								<exclude>**/digital/paisley/tmt/coding/Application*</exclude>
-								<exclude>**/digital/paisley/tmt/coding/apis/**</exclude>
+								<exclude>**/digital/paisley/tmt/commons/**</exclude>
+								<exclude>**/digital/paisley/tmt/config/**</exclude>
+								<exclude>**/digital/paisley/tmt/Application*</exclude>
+								<exclude>**/digital/paisley/tmt/apis/**</exclude>
 							</excludes>
 							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>

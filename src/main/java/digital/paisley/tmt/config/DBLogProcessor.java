@@ -1,6 +1,6 @@
-package digital.paisley.tmt.coding.config;
+package digital.paisley.tmt.config;
 
-import digital.paisley.tmt.coding.entities.StoreOrder;
+import digital.paisley.tmt.entities.StoreOrder;
 import org.springframework.batch.item.ItemProcessor;
 
 public class DBLogProcessor implements ItemProcessor<StoreOrder, StoreOrder> {

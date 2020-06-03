@@ -1,4 +1,4 @@
-package digital.paisley.tmt.coding.dtos;
+package digital.paisley.tmt.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

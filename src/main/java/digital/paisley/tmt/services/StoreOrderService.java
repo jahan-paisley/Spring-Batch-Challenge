@@ -1,6 +1,6 @@
-package digital.paisley.tmt.coding.services;
+package digital.paisley.tmt.services;
 
-import digital.paisley.tmt.coding.repositories.StoreOrderRepository;
+import digital.paisley.tmt.repositories.StoreOrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

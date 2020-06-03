@@ -1,6 +1,6 @@
-package digital.paisley.tmt.coding.config;
+package digital.paisley.tmt.config;
 
-import digital.paisley.tmt.coding.entities.StoreOrder;
+import digital.paisley.tmt.entities.StoreOrder;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -100,7 +100,7 @@ public class BatchConfig {
         EmbeddedDatabaseBuilder embeddedDatabaseBuilder = new EmbeddedDatabaseBuilder();
         return embeddedDatabaseBuilder.addScript("classpath:org/springframework/batch/core/schema-drop-h2.sql")
                 .addScript("classpath:org/springframework/batch/core/schema-h2.sql")
-                .addScript("classpath:employee.sql")
+                .addScript("classpath:tmt.sql")
                 .setType(EmbeddedDatabaseType.H2)
                 .build();
     }

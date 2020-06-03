@@ -1,6 +1,6 @@
-package digital.paisley.tmt.coding;
+package digital.paisley.tmt;
 
-import digital.paisley.tmt.coding.entities.StoreOrder;
+import digital.paisley.tmt.entities.StoreOrder;
 import io.restassured.response.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
