@@ -36,6 +36,6 @@ spec:
           value: staging
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-      schedulerName: default-schedulers
+      schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 120
