@@ -17,7 +17,7 @@ spring:
     password: password
   h2:
     console:
-      enabled: true
+      enabled: false
   jpa:
     database: h2
     show-sql: true
@@ -32,14 +32,6 @@ springdoc:
     enabled: true
   version: v0.0.4
 
----
-spring:
-  profiles:
-    active: local
-  sleuth:
-    enabled: true
-  zipkin:
-    enabled: false
 tmt-config:
   message:  a message that can be changed live
   clientUrl: http://localhost:8089/
