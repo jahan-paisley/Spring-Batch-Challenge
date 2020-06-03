@@ -35,6 +35,9 @@ public class BatchConfig {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
+    @Autowired
+    public DataSource dataSource;
+
     @Value("classPath:/input/sales.csv")
     private Resource inputResource;
 
@@ -88,14 +91,14 @@ public class BatchConfig {
     @Bean
     public JdbcBatchItemWriter<StoreOrder> writer() {
         JdbcBatchItemWriter<StoreOrder> itemWriter = new JdbcBatchItemWriter<StoreOrder>();
-        itemWriter.setDataSource(dataSource());
+        itemWriter.setDataSource(dataSource);
         //todo:This query should be change
         itemWriter.setSql("INSERT INTO STORE_ORDER (ID) VALUES (:id, :firstName, :lastName)");
         itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<StoreOrder>());
         return itemWriter;
     }
 
-    @Bean
+/*    @Bean
     public DataSource dataSource(){
         EmbeddedDatabaseBuilder embeddedDatabaseBuilder = new EmbeddedDatabaseBuilder();
         return embeddedDatabaseBuilder.addScript("classpath:org/springframework/batch/core/schema-drop-h2.sql")
@@ -103,5 +106,5 @@ public class BatchConfig {
                 .addScript("classpath:tmt.sql")
                 .setType(EmbeddedDatabaseType.H2)
                 .build();
-    }
+    }*/
 }
