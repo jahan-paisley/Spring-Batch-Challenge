@@ -71,23 +71,24 @@ public class BatchConfig  {
     }
 
     @Bean
-    public Step step(final ItemWriter<StoreOrder> writer) {
+    public Step step(final ItemWriter<StoreOrder> writer) throws Exception {
         return stepBuilderFactory
                 .get("step")
                 .<StoreOrder, StoreOrder>chunk(5)
                 .reader(reader())
                 .processor(beanValidatingItemProcessor())
-                .processor(processor())
+              .processor(processor())
                 .writer(writer)
                 .build();
     }
 
     @Bean
-    public ItemProcessor<StoreOrder, StoreOrder> processor() {
+    public ItemProcessor<StoreOrder, StoreOrder> processor() throws Exception {
         ValidatingItemProcessor<StoreOrder> validatingItemProcessor = new ValidatingItemProcessor<>(springValidator());
         validatingItemProcessor.setFilter(true);
+        validatingItemProcessor.afterPropertiesSet();
         return validatingItemProcessor;
-        //return new DBLogProcessor();
+      //  return new DBLogProcessor();
     }
 
     @Bean
