@@ -78,34 +78,24 @@ public class BatchConfig {
 
     @Bean
     public LineMapper<StoreOrder> lineMapper() {
-        DefaultLineMapper<StoreOrder> lineMapper = new DefaultLineMapper<StoreOrder>();
+        DefaultLineMapper<StoreOrder> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-        lineTokenizer.setNames(new String[] { "id", "firstName", "lastName" });
-        lineTokenizer.setIncludedFields(new int[] { 0, 1, 2 });
-        BeanWrapperFieldSetMapper<StoreOrder> fieldSetMapper = new BeanWrapperFieldSetMapper<StoreOrder>();
-        fieldSetMapper.setTargetType(StoreOrder.class);
+        lineTokenizer.setNames(new String[]{"orderId","orderDate","shipDate","shipMode","customerId","customerName","productId","category","productName","quantity","discount","profit"});
+        lineTokenizer.setIncludedFields(new int[]{ 1,2,3,4,5,6,13,14,16,18,19,20});
+        BeanWrapperFieldSetMapper<StoreOrder> mapper = new BeanWrapperFieldSetMapperCustom<>();
+        mapper.setTargetType(StoreOrder.class);
+        mapper.setDistanceLimit(0);
         lineMapper.setLineTokenizer(lineTokenizer);
-        lineMapper.setFieldSetMapper(fieldSetMapper);
+        lineMapper.setFieldSetMapper(mapper);
         return lineMapper;
     }
 
     @Bean
     public JdbcBatchItemWriter<StoreOrder> writer() {
         JdbcBatchItemWriter<StoreOrder> itemWriter = new JdbcBatchItemWriter<StoreOrder>();
-        itemWriter.setDataSource(dataSource);
-        //todo:This query should be change
-        itemWriter.setSql("INSERT INTO STORE_ORDER (ID) VALUES (:id, :firstName, :lastName)");
         itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<StoreOrder>());
+        itemWriter.setSql("INSERT INTO STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)");
+        itemWriter.setDataSource(dataSource);
         return itemWriter;
     }
-
-/*    @Bean
-    public DataSource dataSource(){
-        EmbeddedDatabaseBuilder embeddedDatabaseBuilder = new EmbeddedDatabaseBuilder();
-        return embeddedDatabaseBuilder.addScript("classpath:org/springframework/batch/core/schema-drop-h2.sql")
-                .addScript("classpath:org/springframework/batch/core/schema-h2.sql")
-                .addScript("classpath:tmt.sql")
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-    }*/
 }
