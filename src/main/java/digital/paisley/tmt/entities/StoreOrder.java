@@ -48,11 +48,11 @@ public class StoreOrder implements java.io.Serializable {
     @Column(name = "QUANTITY", nullable = false)
     public Integer quantity;
 
-    @Digits(integer=3, fraction=2)
+    @Digits(integer = 3, fraction = 2)
     @Column(name = "DISCOUNT")
     public BigDecimal discount;
 
-    @Digits(integer=6, fraction=2)
+    @Digits(integer = 6, fraction = 4)
     @Column(name = "PROFIT")
     public BigDecimal profit;
 

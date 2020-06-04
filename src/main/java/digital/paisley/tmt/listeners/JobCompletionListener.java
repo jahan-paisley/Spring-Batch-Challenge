@@ -33,13 +33,12 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("============ JOB FINISHED ============ Verifying the results....\n");
 
-            List<StoreOrder> results = jdbcTemplate.query("SELECT * FROM PUBLIC.STORE_ORDER", new RowMapper<StoreOrder>() {
-                @Override
-                public StoreOrder mapRow(ResultSet rs, int row) throws SQLException {
-                    StoreOrder storeOrderBuilder = StoreOrder.builder().id(rs.getLong(1)).orderId(rs.getString(7)).customerId(rs.getString(3)).build();
-                    return storeOrderBuilder;
-                }
-            });
+            List<StoreOrder> results = jdbcTemplate.query("SELECT * FROM PUBLIC.STORE_ORDER",
+                    (rs, row) -> StoreOrder.builder()
+                            .id(rs.getLong(1))
+                            .orderId(rs.getString(7))
+                            .customerId(rs.getString(3))
+                            .build());
 
             for (StoreOrder item : results) {
                 log.info("Discovered Order Id<" + item.orderId + "> in the database.");

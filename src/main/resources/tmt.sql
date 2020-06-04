@@ -8,7 +8,7 @@ create table STORE_ORDER
     SHIP_MODE     VARCHAR(20),
     QUANTITY      INT           not null,
     DISCOUNT      DECIMAL(3, 2),
-    PROFIT        DECIMAL(6, 2) not null,
+    PROFIT        DECIMAL(6, 4) not null,
     PRODUCT_ID    VARCHAR(20)   not null,
     CUSTOMER_NAME VARCHAR(255)  not null,
     CATEGORY      VARCHAR(255)  not null,

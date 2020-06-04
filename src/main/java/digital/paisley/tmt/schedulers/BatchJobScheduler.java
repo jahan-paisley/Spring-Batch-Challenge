@@ -16,11 +16,14 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class BatchJobScheduler {
-    @Autowired
-    JobLauncher jobLauncher;
+    final JobLauncher jobLauncher;
 
-    @Autowired
-    Job job;
+    final Job job;
+
+    public BatchJobScheduler(JobLauncher jobLauncher, Job job) {
+        this.jobLauncher = jobLauncher;
+        this.job = job;
+    }
 
     @Scheduled(cron = "0 */1 * * * ?")
     public void perform() throws Exception {
@@ -29,13 +32,8 @@ public class BatchJobScheduler {
                 .toJobParameters();
         try {
             jobLauncher.run(job, params);
-        } catch (JobExecutionAlreadyRunningException e) {
-            log.error(e.getMessage());
-        } catch (JobRestartException e) {
-            log.error(e.getMessage());
-        } catch (JobInstanceAlreadyCompleteException e) {
-            log.error(e.getMessage());
-        } catch (JobParametersInvalidException e) {
+        } catch (JobExecutionAlreadyRunningException | JobRestartException |
+                JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
             log.error(e.getMessage());
         }
     }

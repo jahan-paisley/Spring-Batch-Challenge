@@ -34,19 +34,26 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
-public class BatchConfig  {
+public class BatchConfig {
 
-    @Autowired
-    private JobBuilderFactory jobBuilderFactory;
+    private final JobBuilderFactory jobBuilderFactory;
 
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
 
-    @Autowired
-    JobCompletionListener listener;
+    private final JobCompletionListener listener;
+
+    static String[] COLUMN_NAMES = {"orderId", "orderDate", "shipDate", "shipMode", "customerId", "customerName", "productId", "category", "productName", "quantity", "discount", "profit"};
+    static String SQL_INSERT_QUERY = "INSERT INTO PUBLIC.STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)";
+    static int[] COLUMN_INDICES = {1, 2, 3, 4, 5, 6, 13, 14, 16, 18, 19, 20};
 
     @Value("classPath:/input/sales.csv")
     private Resource inputResource;
+
+    public BatchConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory, JobCompletionListener listener) {
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.stepBuilderFactory = stepBuilderFactory;
+        this.listener = listener;
+    }
 
     @Bean
     public Job readCSVFileJob(final Step step) {
@@ -77,7 +84,7 @@ public class BatchConfig  {
                 .<StoreOrder, StoreOrder>chunk(5)
                 .reader(reader())
                 .processor(beanValidatingItemProcessor())
-              .processor(processor())
+                .processor(processor())
                 .writer(writer)
                 .build();
     }
@@ -88,14 +95,13 @@ public class BatchConfig  {
         validatingItemProcessor.setFilter(true);
         validatingItemProcessor.afterPropertiesSet();
         return validatingItemProcessor;
-      //  return new DBLogProcessor();
+        //  return new DBLogProcessor();
     }
 
     @Bean
     public BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor() {
         BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor = new BeanValidatingItemProcessor<>();
         beanValidatingItemProcessor.setFilter(true);
-
         return beanValidatingItemProcessor;
     }
 
@@ -112,8 +118,8 @@ public class BatchConfig  {
     public LineMapper<StoreOrder> lineMapper() {
         DefaultLineMapper<StoreOrder> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-        lineTokenizer.setNames(new String[]{"orderId", "orderDate", "shipDate", "shipMode", "customerId", "customerName", "productId", "category", "productName", "quantity", "discount", "profit"});
-        lineTokenizer.setIncludedFields(new int[]{1, 2, 3, 4, 5, 6, 13, 14, 16, 18, 19, 20});
+        lineTokenizer.setNames(COLUMN_NAMES);
+        lineTokenizer.setIncludedFields(COLUMN_INDICES);
         BeanWrapperFieldSetMapper<StoreOrder> mapper = new BeanWrapperFieldSetMapperCustom<>();
         mapper.setTargetType(StoreOrder.class);
         mapper.setDistanceLimit(0);
@@ -126,7 +132,7 @@ public class BatchConfig  {
     public JdbcBatchItemWriter<StoreOrder> writer(DataSourceConfiguration dataSource) {
         return new JdbcBatchItemWriterBuilder<StoreOrder>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO PUBLIC.STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)")
+                .sql(SQL_INSERT_QUERY)
                 .dataSource(dataSource.dataSource())
                 .build();
     }
