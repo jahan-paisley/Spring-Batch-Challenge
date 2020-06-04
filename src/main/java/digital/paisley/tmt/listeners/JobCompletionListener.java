@@ -33,16 +33,16 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("============ JOB FINISHED ============ Verifying the results....\n");
 
-            List<StoreOrder> results = jdbcTemplate.query("SELECT * FROM STORE_ORDER", new RowMapper<StoreOrder>() {
+            List<StoreOrder> results = jdbcTemplate.query("SELECT * FROM PUBLIC.STORE_ORDER", new RowMapper<StoreOrder>() {
                 @Override
                 public StoreOrder mapRow(ResultSet rs, int row) throws SQLException {
-                    StoreOrder storeOrderBuilder = StoreOrder.builder().id(rs.getLong(1)).build();
+                    StoreOrder storeOrderBuilder = StoreOrder.builder().id(rs.getLong(1)).customerId(rs.getString(3)).build();
                     return storeOrderBuilder;
                 }
             });
 
-            for (StoreOrder StoreOrder : results) {
-                log.info("Discovered <" + StoreOrder + "> in the database.");
+            for (StoreOrder item : results) {
+                log.info("Discovered Customer Id<" + item.customerId + "> in the database.");
             }
 
         }
