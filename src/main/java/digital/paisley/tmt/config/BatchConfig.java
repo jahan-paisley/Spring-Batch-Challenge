@@ -1,6 +1,7 @@
 package digital.paisley.tmt.config;
 
 import digital.paisley.tmt.entities.StoreOrder;
+import digital.paisley.tmt.listeners.JobCompletionListener;
 import digital.paisley.tmt.processors.DBLogProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -37,6 +38,9 @@ public class BatchConfig {
     private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
+    JobCompletionListener listener;
+
+    @Autowired
     public DataSource dataSource;
 
     @Value("classPath:/input/sales.csv")
@@ -47,6 +51,7 @@ public class BatchConfig {
         return jobBuilderFactory
                 .get("readCSVFileJob")
                 .incrementer(new RunIdIncrementer())
+                .listener(listener)
                 .start(step())
                 .build();
     }
