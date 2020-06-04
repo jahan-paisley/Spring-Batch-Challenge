@@ -19,14 +19,16 @@ import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
+import org.springframework.batch.item.validator.SpringValidator;
+import org.springframework.batch.item.validator.ValidatingItemProcessor;
+import org.springframework.batch.item.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import javax.sql.DataSource;
 
 
 @Configuration
@@ -57,11 +59,24 @@ public class BatchConfig  {
     }
 
     @Bean
+    public org.springframework.validation.Validator validator() {
+        return new org.springframework.validation.beanvalidation.LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    public Validator<StoreOrder> springValidator() {
+        SpringValidator<StoreOrder> springValidator = new SpringValidator<>();
+        springValidator.setValidator(validator());
+        return springValidator;
+    }
+
+    @Bean
     public Step step(final ItemWriter<StoreOrder> writer) {
         return stepBuilderFactory
                 .get("step")
                 .<StoreOrder, StoreOrder>chunk(5)
                 .reader(reader())
+                .processor(beanValidatingItemProcessor())
                 .processor(processor())
                 .writer(writer)
                 .build();
@@ -69,7 +84,18 @@ public class BatchConfig  {
 
     @Bean
     public ItemProcessor<StoreOrder, StoreOrder> processor() {
-        return new DBLogProcessor();
+        ValidatingItemProcessor<StoreOrder> validatingItemProcessor = new ValidatingItemProcessor<>(springValidator());
+        validatingItemProcessor.setFilter(true);
+        return validatingItemProcessor;
+        //return new DBLogProcessor();
+    }
+
+    @Bean
+    public BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor() {
+        BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor = new BeanValidatingItemProcessor<>();
+        beanValidatingItemProcessor.setFilter(true);
+
+        return beanValidatingItemProcessor;
     }
 
     @Bean
@@ -94,15 +120,6 @@ public class BatchConfig  {
         lineMapper.setFieldSetMapper(mapper);
         return lineMapper;
     }
-
-//    @Bean
-//    public JdbcBatchItemWriter<StoreOrder> writer(DataSourceConfiguration dataSource) {
-//        JdbcBatchItemWriter<StoreOrder> itemWriter = new JdbcBatchItemWriter<StoreOrder>();
-//        itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<StoreOrder>());
-//        itemWriter.setSql("INSERT INTO STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)");
-//        itemWriter.setDataSource(dataSource.dataSource());
-//        return itemWriter;
-//    }
 
     @Bean
     public JdbcBatchItemWriter<StoreOrder> writer(DataSourceConfiguration dataSource) {

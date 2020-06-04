@@ -3,6 +3,7 @@ package digital.paisley.tmt.entities;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class StoreOrder implements java.io.Serializable {
     public Long id;
 
     @Column(name = "ORDER_ID", length = 20, nullable = false)
+    @Max(20)
     public String orderId;
 
     @Temporal(value = TemporalType.TIMESTAMP)

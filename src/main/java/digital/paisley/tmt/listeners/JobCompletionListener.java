@@ -36,13 +36,13 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
             List<StoreOrder> results = jdbcTemplate.query("SELECT * FROM PUBLIC.STORE_ORDER", new RowMapper<StoreOrder>() {
                 @Override
                 public StoreOrder mapRow(ResultSet rs, int row) throws SQLException {
-                    StoreOrder storeOrderBuilder = StoreOrder.builder().id(rs.getLong(1)).customerId(rs.getString(3)).build();
+                    StoreOrder storeOrderBuilder = StoreOrder.builder().id(rs.getLong(1)).orderId(rs.getString(7)).customerId(rs.getString(3)).build();
                     return storeOrderBuilder;
                 }
             });
 
             for (StoreOrder item : results) {
-                log.info("Discovered Customer Id<" + item.customerId + "> in the database.");
+                log.info("Discovered Order Id<" + item.orderId + "> in the database.");
             }
 
         }
