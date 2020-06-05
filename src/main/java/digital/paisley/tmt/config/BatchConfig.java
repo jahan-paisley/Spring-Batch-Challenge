@@ -20,6 +20,9 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.validator.*;
+import org.springframework.batch.item.validator.SpringValidator;
+import org.springframework.batch.item.validator.ValidatingItemProcessor;
+import org.springframework.batch.item.validator.Validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,15 +32,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableBatchProcessing
-@EnableScheduling
+//@EnableScheduling
 public class BatchConfig {
 
-    private final JobBuilderFactory jobBuilderFactory;
-
     private final StepBuilderFactory stepBuilderFactory;
-
+    private final JobBuilderFactory jobBuilderFactory;
     private final JobCompletionListener listener;
-
 
     static String[] COLUMN_NAMES = {"orderId", "orderDate", "shipDate", "shipMode", "customerId", "customerName", "productId", "category", "productName", "quantity", "discount", "profit"};
     static String SQL_INSERT_QUERY = "INSERT INTO PUBLIC.STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)";
@@ -92,15 +92,15 @@ public class BatchConfig {
     @Bean
     public ItemProcessor<StoreOrder, StoreOrder> processor() throws Exception {
         ValidatingItemProcessor<StoreOrder> validatingItemProcessor = new ValidatingItemProcessor<>(springValidator());
-        validatingItemProcessor.setFilter(true);
+        validatingItemProcessor.setFilter(false);
         validatingItemProcessor.afterPropertiesSet();
         return validatingItemProcessor;
 
     }
 
-    @Bean
+    @Bean("readerService")
     public FlatFileItemReader<StoreOrder> reader() {
-        FlatFileItemReader<StoreOrder> itemReader = new FlatFileItemReader<StoreOrder>();
+        FlatFileItemReader<StoreOrder> itemReader = new FlatFileItemReader<>();
         itemReader.setLineMapper(lineMapper());
         itemReader.setLinesToSkip(1);
         itemReader.setResource(inputResource);
@@ -121,7 +121,7 @@ public class BatchConfig {
         return lineMapper;
     }
 
-    @Bean
+    @Bean("writerService")
     public JdbcBatchItemWriter<StoreOrder> writer(DataSourceConfiguration dataSource) {
         return new JdbcBatchItemWriterBuilder<StoreOrder>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
