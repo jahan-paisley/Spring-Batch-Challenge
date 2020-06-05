@@ -3,6 +3,12 @@ package digital.paisley.tmt.entities;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -28,6 +34,7 @@ public class StoreOrder implements java.io.Serializable {
 
     @Column(name = "ORDER_ID", length = 20, nullable = false)
     @NotBlank
+    @Length(max = 20)
     public String orderId;
 
     @Temporal(value = TemporalType.TIMESTAMP)

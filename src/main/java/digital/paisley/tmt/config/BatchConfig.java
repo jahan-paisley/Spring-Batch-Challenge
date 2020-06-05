@@ -2,7 +2,6 @@ package digital.paisley.tmt.config;
 
 import digital.paisley.tmt.entities.StoreOrder;
 import digital.paisley.tmt.listeners.JobCompletionListener;
-//import digital.paisley.tmt.processors.ValidationTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -19,17 +18,13 @@ import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.SpringValidator;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
 import org.springframework.batch.item.validator.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @Configuration
@@ -38,34 +33,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class BatchConfig {
 
     private final StepBuilderFactory stepBuilderFactory;
-
-    public BatchConfig(StepBuilderFactory stepBuilderFactory, JobBuilderFactory jobBuilderFactory, JobCompletionListener listener) {
-        this.stepBuilderFactory = stepBuilderFactory;
-        this.jobBuilderFactory = jobBuilderFactory;
-        this.listener = listener;
-    }
-
-//    @Bean
-//    @Qualifier("validationStep")
-//    Step validationStep(ValidationTasklet validationTasklet) {
-//        return stepBuilderFactory.get("validationStep")
-//                .tasklet(validationTasklet)
-//                .build();
-//    }
-//
-//    @Bean(name = "JOB_NAME")
-//    Job springBatchJob(@Autowired JobBuilderFactory jobBuilderFactory,
-//                       @Qualifier("validationStep") Step validationStep) {
-//
-//        return jobBuilderFactory.get("JOB_NAME")
-//                .start(validationStep)
-//                .build();
-//    }
-
     private final JobBuilderFactory jobBuilderFactory;
-
     private final JobCompletionListener listener;
-
     static String[] COLUMN_NAMES = {"orderId", "orderDate", "shipDate", "shipMode", "customerId", "customerName", "productId", "category", "productName", "quantity", "discount", "profit"};
     static String SQL_INSERT_QUERY = "INSERT INTO PUBLIC.STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)";
     static int[] COLUMN_INDICES = {1, 2, 3, 4, 5, 6, 13, 14, 16, 18, 19, 20};
@@ -107,7 +76,7 @@ public class BatchConfig {
                 .get("step")
                 .<StoreOrder, StoreOrder>chunk(5)
                 .reader(reader())
-                .processor(beanValidatingItemProcessor())
+                //.processor(beanValidatingItemProcessor())
                 .processor(processor())
                 .writer(writer)
                 //.faultTolerant()
@@ -121,13 +90,7 @@ public class BatchConfig {
         validatingItemProcessor.setFilter(true);
         validatingItemProcessor.afterPropertiesSet();
         return validatingItemProcessor;
-    }
 
-    @Bean
-    public BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor() {
-        BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor = new BeanValidatingItemProcessor<>();
-        beanValidatingItemProcessor.setFilter(true);
-        return beanValidatingItemProcessor;
     }
 
     @Bean("readerService")
