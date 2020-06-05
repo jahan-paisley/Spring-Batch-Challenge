@@ -1,41 +1,32 @@
-**Welcome to our tmt microservice, use it as a quickstarter for new ms**
+## Technical Assessment
 
----
+You are given the task of writing a simple program which reads from a given CSV file and saves the data in 
+a database. This challenge can be completed in about 2 hours, however there is no time limit as such.
 
-## Clone your repo
+##### Attachments
 
-You’ll start by editing your microservice README.
+- `sales.csv`: The csv file which your program needs to parse. It is a small list of sales made in a store.
+- `schema.sql`: The DDL for the database your program needs to use. This DDL is written for a MySQL DB, 
+however you may use any DB of your choosing as long as the constraints are the same.
 
----
+The tables are not of correct structure, and that is intentionally done. We expect you to think and correct the tables structure as necessary.
 
-## Custom content 
+##### Guidelines
 
-Copy & Paste the content of this repo in your new project
+- The program needs to be written in Java
+- Create your solution as if you were in a real-life project and it would have to be shipped into production after you are done 
+(read that again, and REALLY consider it in your approach).
+- For the purpose of this exercise you can assume that we already have a database containing the necessary tables; you don't need
+to include the database itself in your solution.
+- Please include a short readme when returning your solution describing decisions and assumptions you made during development.
+- Please submit as a ZIP file over either email or DropBox/Google Drive/etc - do NOT push to a public repository.
 
-1. Search for **'tmt'** and replace it with the **name** of the microservice
-2. Maybe you'll need to change some files like 'DummyApi' to your microservice name.
-3. Replace dummy content with your content
-4. Ask in slack for adding the needed configuration in kubernetes  
-5. Make a Pull Request
-6. Deploy your branch using http://ci.paisley.digital
-7. If behaviour tests are ok, your branch will be promoted to production and then merged.
-8. I recommend you to use a TDD or ATDD approach. We have good quality gates >70% test coverage ;)
+##### What we will be looking at
 
----
+- Readability
+- Adherence to best practices
+- Extensibility (what if we wanted to add an other source later, or a different database?)
+- Exception handling
 
-## The code
 
-Next, you’ll need to understand the main rules of the code
 
-1. APIController implements DummyAPI interface.
-2. The **client** package contains client for other web services.
-3. In clients, you can use **RibbonClient** for internal traffic between our own microservices.
-4. Use **dto** package for reponse/request clients with another services
-5. Use **entities** to crud entities in database using JPA **repositories**
-6. Use **mappers** to move data between layers. model to dto or dto to model or entity to dto.
-7. We use database as code. You can use **liquibase** master for adding your own sql to be executed on deploy.
-8. You must **test** all your methods in service layers, using mockbeans for clients and repositories you will find and example in DummyServiceTest.java.
-9. You must cover all your methods in controller layers, using spring cloud contracts, you will find and example in getDummy.groovy
-10. You must replace this README content with your own microservice readme.
-
----

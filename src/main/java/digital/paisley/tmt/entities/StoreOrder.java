@@ -4,10 +4,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -30,8 +27,7 @@ public class StoreOrder implements java.io.Serializable {
     public Long id;
 
     @Column(name = "ORDER_ID", length = 20, nullable = false)
-    @NotNull
-    @NotEmpty
+    @NotBlank
     public String orderId;
 
     @Temporal(value = TemporalType.TIMESTAMP)
@@ -42,9 +38,11 @@ public class StoreOrder implements java.io.Serializable {
     @Column(name = "SHIP_DATE")
     public Date shipDate;
 
+    @Length(max = 20)
     @Column(name = "SHIP_MODE", length = 20)
     public String shipMode;
 
+    @NotNull
     @Column(name = "QUANTITY", nullable = false)
     public Integer quantity;
 
@@ -56,15 +54,21 @@ public class StoreOrder implements java.io.Serializable {
     @Column(name = "PROFIT")
     public BigDecimal profit;
 
+    @NotBlank
+    @Length(max = 20)
     @Column(name = "PRODUCT_ID", length = 20, nullable = false)
     public String productId;
 
+    @NotBlank
     @Column(name = "CUSTOMER_NAME", nullable = false)
     public String customerName;
 
+    @NotBlank
     @Column(name = "CATEGORY", nullable = false)
     public String category;
 
+    @NotBlank
+    @Length(max = 20)
     @Column(name = "CUSTOMER_ID", length = 20, nullable = false)
     public String customerId;
 

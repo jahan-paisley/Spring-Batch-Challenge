@@ -14,6 +14,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
+import java.util.Objects;
+
 @Configuration
 @PropertySource("classpath:/batch-h2.properties")
 public class DataSourceConfiguration {
@@ -30,7 +32,7 @@ public class DataSourceConfiguration {
     @PostConstruct
     protected void initialize() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(resourceLoader.getResource(environment.getProperty("batch.schema.script")));
+        populator.addScript(resourceLoader.getResource(Objects.requireNonNull(environment.getProperty("batch.schema.script"))));
         populator.setContinueOnError(true);
         DatabasePopulatorUtils.execute(populator , dataSource());
     }
