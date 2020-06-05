@@ -2,7 +2,7 @@ package digital.paisley.tmt.config;
 
 import digital.paisley.tmt.entities.StoreOrder;
 import digital.paisley.tmt.listeners.JobCompletionListener;
-import digital.paisley.tmt.processors.DBLogProcessor;
+import digital.paisley.tmt.listeners.JobExceptionSkipListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -19,10 +19,7 @@ import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
-import org.springframework.batch.item.validator.SpringValidator;
-import org.springframework.batch.item.validator.ValidatingItemProcessor;
-import org.springframework.batch.item.validator.Validator;
+import org.springframework.batch.item.validator.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +37,7 @@ public class BatchConfig {
     private final StepBuilderFactory stepBuilderFactory;
 
     private final JobCompletionListener listener;
+
 
     static String[] COLUMN_NAMES = {"orderId", "orderDate", "shipDate", "shipMode", "customerId", "customerName", "productId", "category", "productName", "quantity", "discount", "profit"};
     static String SQL_INSERT_QUERY = "INSERT INTO PUBLIC.STORE_ORDER (ORDER_ID, ORDER_DATE, SHIP_DATE, SHIP_MODE, CUSTOMER_ID, CUSTOMER_NAME,PRODUCT_ID,CATEGORY,PRODUCT_NAME,QUANTITY, DISCOUNT, PROFIT)  VALUES ( :orderId, :orderDate, :shipDate, :shipMode, :customerId, :customerName, :productId, :category, :productName, :quantity, :discount, :profit)";
@@ -85,6 +83,7 @@ public class BatchConfig {
                 //.processor(beanValidatingItemProcessor())
                 .processor(processor())
                 .writer(writer)
+                .listener(new JobExceptionSkipListener())
                 //.faultTolerant()
                 .exceptionHandler(new RepeatExceptionHandler())
                 .build();
