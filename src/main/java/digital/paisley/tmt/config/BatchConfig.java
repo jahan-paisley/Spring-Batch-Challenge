@@ -2,7 +2,6 @@ package digital.paisley.tmt.config;
 
 import digital.paisley.tmt.entities.StoreOrder;
 import digital.paisley.tmt.listeners.JobCompletionListener;
-import digital.paisley.tmt.processors.DBLogProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -23,7 +22,6 @@ import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.SpringValidator;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
 import org.springframework.batch.item.validator.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -86,6 +84,8 @@ public class BatchConfig {
                 .processor(beanValidatingItemProcessor())
                 .processor(processor())
                 .writer(writer)
+                //.faultTolerant()
+                .exceptionHandler(new RepeatExceptionHandler())
                 .build();
     }
 
