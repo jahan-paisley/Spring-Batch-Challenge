@@ -37,7 +37,6 @@ public class StoreOrder implements java.io.Serializable {
     public String shipMode;
 
     @NotNull
-    @NotEmpty
     public Integer quantity;
 
     @Digits(integer = 3, fraction = 2)
