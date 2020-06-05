@@ -42,6 +42,7 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
 
             for (StoreOrder item : results) {
                 log.info("Discovered Order Id<" + item.orderId + "> in the database.");
+                log.info("Discovered Order " + item.id + "> in the database.");
             }
 
         }

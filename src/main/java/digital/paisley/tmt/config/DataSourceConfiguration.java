@@ -18,11 +18,14 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 @PropertySource("classpath:/batch-h2.properties")
 public class DataSourceConfiguration {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
-    @Autowired
-    private ResourceLoader resourceLoader;
+    private final ResourceLoader resourceLoader;
+
+    public DataSourceConfiguration(Environment environment, ResourceLoader resourceLoader) {
+        this.environment = environment;
+        this.resourceLoader = resourceLoader;
+    }
 
     @PostConstruct
     protected void initialize() {
