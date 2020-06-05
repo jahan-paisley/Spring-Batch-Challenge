@@ -3,14 +3,10 @@ package digital.paisley.tmt.entities;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -23,6 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class StoreOrder implements java.io.Serializable {
 
     private static final long serialVersionUID = -4497997807305980954L;

@@ -87,7 +87,7 @@ public class BatchConfig {
     @Bean
     public ItemProcessor<StoreOrder, StoreOrder> processor() throws Exception {
         ValidatingItemProcessor<StoreOrder> validatingItemProcessor = new ValidatingItemProcessor<>(springValidator());
-        validatingItemProcessor.setFilter(true);
+        validatingItemProcessor.setFilter(false);
         validatingItemProcessor.afterPropertiesSet();
         return validatingItemProcessor;
 
