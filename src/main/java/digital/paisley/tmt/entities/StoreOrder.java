@@ -1,20 +1,16 @@
 package digital.paisley.tmt.entities;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-@Entity
-@Table(name = "STORE_ORDER")
 @AllArgsConstructor
 @Builder
 @Getter
@@ -24,51 +20,50 @@ public class StoreOrder implements java.io.Serializable {
 
     private static final long serialVersionUID = -4497997807305980954L;
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
     public Long id;
 
-    @Column(name = "ORDER_ID", length = 20, nullable = false)
     @NotNull
     @NotEmpty
+    @Size(min = 1,max = 20)
     public String orderId;
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "ORDER_DATE")
     public Date orderDate;
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "SHIP_DATE")
     public Date shipDate;
 
-    @Column(name = "SHIP_MODE", length = 20)
+    @Size(max = 20)
     public String shipMode;
 
-    @Column(name = "QUANTITY", nullable = false)
+    @NotNull
+    @NotEmpty
     public Integer quantity;
 
     @Digits(integer = 3, fraction = 2)
-    @Column(name = "DISCOUNT")
     public BigDecimal discount;
 
     @Digits(integer = 6, fraction = 4)
-    @Column(name = "PROFIT")
     public BigDecimal profit;
 
-    @Column(name = "PRODUCT_ID", length = 20, nullable = false)
+    @NotNull
+    @NotEmpty
+    @Size(min = 1,max = 20)
     public String productId;
 
-    @Column(name = "CUSTOMER_NAME", nullable = false)
+    @NotNull
+    @NotEmpty
     public String customerName;
 
-    @Column(name = "CATEGORY", nullable = false)
+    @NotNull
+    @NotEmpty
     public String category;
 
-    @Column(name = "CUSTOMER_ID", length = 20, nullable = false)
+    @NotNull
+    @NotEmpty
+    @Size(min = 1,max = 20)
     public String customerId;
 
-    @Column(name = "PRODUCT_NAME")
     public String productName;
 
 }

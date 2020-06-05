@@ -2,6 +2,7 @@ package digital.paisley.tmt.config;
 
 import digital.paisley.tmt.entities.StoreOrder;
 import digital.paisley.tmt.listeners.JobCompletionListener;
+import digital.paisley.tmt.processors.DBLogProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -81,7 +82,7 @@ public class BatchConfig {
                 .get("step")
                 .<StoreOrder, StoreOrder>chunk(5)
                 .reader(reader())
-                .processor(beanValidatingItemProcessor())
+                //.processor(beanValidatingItemProcessor())
                 .processor(processor())
                 .writer(writer)
                 //.faultTolerant()
@@ -95,14 +96,7 @@ public class BatchConfig {
         validatingItemProcessor.setFilter(true);
         validatingItemProcessor.afterPropertiesSet();
         return validatingItemProcessor;
-        //  return new DBLogProcessor();
-    }
 
-    @Bean
-    public BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor() {
-        BeanValidatingItemProcessor<StoreOrder> beanValidatingItemProcessor = new BeanValidatingItemProcessor<>();
-        beanValidatingItemProcessor.setFilter(true);
-        return beanValidatingItemProcessor;
     }
 
     @Bean
